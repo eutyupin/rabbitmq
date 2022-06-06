@@ -15,7 +15,6 @@ public class PostsProducer {
     private static String routingKey;
     private static String message;
 
-
     public static void main(String[] args) throws Exception {
         scanner = new Scanner(System.in);
         ConnectionFactory factory = new ConnectionFactory();
@@ -29,10 +28,13 @@ public class PostsProducer {
 
     private static void readEnteredPosts(Channel channel) throws IOException {
         System.out.println("Введите пост в формате: 'тематика'пробел'текст поста'");
-        topicMessage = scanner.nextLine().split(" ", 2);
-        String routingKey = topicMessage[0];
-        String message = topicMessage[1];
-        publishPost(routingKey, message, channel);
+        String tmp = scanner.nextLine();
+        if (!tmp.isEmpty()) {
+            topicMessage = tmp.split(" ", 2);
+            String routingKey = topicMessage[0];
+            String message = topicMessage[1];
+            publishPost(routingKey, message, channel);
+        }
     }
 
     private static void publishPost(String routingKey, String message, Channel channel) throws IOException {
